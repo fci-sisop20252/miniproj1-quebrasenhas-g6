@@ -75,15 +75,25 @@ int main(int argc, char *argv[]) {
     int num_workers = atoi(argv[4]);
     int charset_len = strlen(charset);
     
-    if (password_len < 1 || password_len > 10){
-        fprint(stderr, "Erro: tamanho da senha deve estra entre 1 e 10.\n");
-        exit(1);
-    }
     // TODO: Adicionar validações dos parâmetros
     // - password_len deve estar entre 1 e 10
     // - num_workers deve estar entre 1 e MAX_WORKERS
     // - charset não pode ser vazio
-    
+
+       if (password_len < 1 || password_len > 10){
+        fprint(stderr, "Erro: tamanho da senha deve estra entre 1 e 10.\n");
+        exit(1);
+    }
+        if (num_workers < 1 || num_workers > MAX_WORKERS){
+        fprint(stderr, "Erro: número de workers deve estar entre 1 e %d.\n", MAX_WORKERS);
+        exit(1);
+    }
+        if (charset_len == 0){
+            fprintf(stderr, "Erro: charset não pode ser vazio.\n");
+            exit(1);
+        }
+
+
     printf("=== Mini-Projeto 1: Quebra de Senhas Paralelo ===\n");
     printf("Hash MD5 alvo: %s\n", target_hash);
     printf("Tamanho da senha: %d\n", password_len);
