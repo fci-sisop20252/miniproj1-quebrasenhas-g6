@@ -67,7 +67,11 @@ int main(int argc, char *argv[]) {
     // Se não, imprimir mensagem de uso e sair com código 1
     
     // IMPLEMENTE AQUI: verificação de argc e mensagem de erro
-    
+    if (argc != 5){
+        fprintf(stderr, "Uso: %s <hash_md5> <tamanho> <charset> <num_workers> \n", argv [0]);
+        fprintf (stderr, "Exemplo: %s \"900150983cd24fb0d6963f7d28e17f72\" 3 \"abc\" 4\n", argv [0]);
+    exit(1);
+    }
     // Parsing dos argumentos (após validação)
     const char *target_hash = argv[1];
     int password_len = atoi(argv[2]);
@@ -75,23 +79,23 @@ int main(int argc, char *argv[]) {
     int num_workers = atoi(argv[4]);
     int charset_len = strlen(charset);
     
-    // TODO: Adicionar validações dos parâmetros
+    // TODO 1: Adicionar validações dos parâmetros
     // - password_len deve estar entre 1 e 10
     // - num_workers deve estar entre 1 e MAX_WORKERS
     // - charset não pode ser vazio
 
-       if (password_len < 1 || password_len > 10){
+    if (password_len < 1 || password_len > 10){
         fprint(stderr, "Erro: tamanho da senha deve estra entre 1 e 10.\n");
-        exit(1);
+    exit(1);
     }
-        if (num_workers < 1 || num_workers > MAX_WORKERS){
+    if (num_workers < 1 || num_workers > MAX_WORKERS){         
         fprint(stderr, "Erro: número de workers deve estar entre 1 e %d.\n", MAX_WORKERS);
-        exit(1);
+    exit(1);
     }
-        if (charset_len == 0){
-            fprintf(stderr, "Erro: charset não pode ser vazio.\n");
-            exit(1);
-        }
+    if (charset_len == 0){
+        fprintf(stderr, "Erro: charset não pode ser vazio.\n");
+    exit(1);
+    }
 
 
     printf("=== Mini-Projeto 1: Quebra de Senhas Paralelo ===\n");
@@ -111,6 +115,7 @@ int main(int argc, char *argv[]) {
     time_t start_time = time(NULL);
     
     // TODO 2: Dividir o espaço de busca entre os workers
+//PS:começar daquii já fiz o TODO 1
     // Calcular quantas senhas cada worker deve verificar
     // DICA: Use divisão inteira e distribua o resto entre os primeiros workers
     
@@ -126,17 +131,17 @@ int main(int argc, char *argv[]) {
     
     // IMPLEMENTE AQUI: Loop para criar workers
     for (int i = 0; i < num_workers; i++) {
-        // TODO: Calcular intervalo de senhas para este worker
-        // TODO: Converter indices para senhas de inicio e fim
-        // TODO 4: Usar fork() para criar processo filho
-        // TODO 5: No processo pai: armazenar PID
-        // TODO 6: No processo filho: usar execl() para executar worker
-        // TODO 7: Tratar erros de fork() e execl()
+        // TODO 3: Calcular intervalo de senhas para este worker
+        // TODO 4: Converter indices para senhas de inicio e fim
+        // TODO 5: Usar fork() para criar processo filho
+        // TODO 6: No processo pai: armazenar PID
+        // TODO 7: No processo filho: usar execl() para executar worker
+        // TODO 8: Tratar erros de fork() e execl()
     }
     
     printf("\nTodos os workers foram iniciados. Aguardando conclusão...\n");
     
-    // TODO 8: Aguardar todos os workers terminarem usando wait()
+    // TODO 9: Aguardar todos os workers terminarem usando wait()
     // IMPORTANTE: O pai deve aguardar TODOS os filhos para evitar zumbis
     
     // IMPLEMENTE AQUI:
@@ -152,7 +157,7 @@ int main(int argc, char *argv[]) {
     
     printf("\n=== Resultado ===\n");
     
-    // TODO 9: Verificar se algum worker encontrou a senha
+    // TODO 10: Verificar se algum worker encontrou a senha
     // Ler o arquivo password_found.txt se existir
     
     // IMPLEMENTE AQUI:
