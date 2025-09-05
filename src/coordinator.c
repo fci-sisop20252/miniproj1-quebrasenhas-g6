@@ -75,6 +75,10 @@ int main(int argc, char *argv[]) {
     int num_workers = atoi(argv[4]);
     int charset_len = strlen(charset);
     
+    if (password_len < 1 || password_len > 10){
+        fprint(stderr, "Erro: tamanho da senha deve estra entre 1 e 10.\n");
+        exit(1);
+    }
     // TODO: Adicionar validações dos parâmetros
     // - password_len deve estar entre 1 e 10
     // - num_workers deve estar entre 1 e MAX_WORKERS
