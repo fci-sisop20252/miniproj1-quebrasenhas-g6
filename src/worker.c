@@ -32,7 +32,7 @@
  * @return 1 se incrementou com sucesso, 0 se chegou ao limite (overflow)
  */
 int increment_password(char *password, const char *charset, int charset_len, int password_len) {
-    
+
     // TODO 1: Implementar o algoritmo de incremento de senha
     // OBJETIVO: Incrementar senha como um contador (ex: aaa -> aab -> aac -> aad...)
     // DICA: Começar do último caractere, como somar 1 em um número
@@ -45,8 +45,20 @@ int increment_password(char *password, const char *charset, int charset_len, int
     // - Se não estourou: atualizar caractere e retornar 1
     // - Se estourou: definir como primeiro caractere e continuar loop
     // - Se todos estouraram: retornar 0 (fim do espaço)
-    
-    return 0;  // SUBSTITUA por sua implementação
+    for(int i = password_len-1; i >= 0; i--){
+        int index = 0;
+        while(password[i] != charset[index] && index < charset_len){
+            index++;
+        }
+        if(index >= charset_len) return 0;
+        if(index + 1 < charset_len){
+            password[i] = charset[index + 1];
+            return 1;
+        } else {
+            password[i] = charset[0];
+        }
+    }
+    return 0;
 }
 
 /**
@@ -80,6 +92,11 @@ void save_result(int worker_id, const char *password) {
     // - Tentar abrir arquivo com O_CREAT | O_EXCL | O_WRONLY
     // - Se sucesso: escrever resultado e fechar
     // - Se falhou: outro worker já encontrou
+    int fd = open(RESULT_FILE, O_CREAT | O_EXCL | O_WRONLY, 0644);
+    if (fd > 0) {
+        
+    }
+    
 }
 
 /**
@@ -114,7 +131,7 @@ int main(int argc, char *argv[]) {
     long long passwords_checked = 0;
     time_t start_time = time(NULL);
     time_t last_progress_time = start_time;
-    
+
     // Loop principal de verificação
     while (1) {
         // TODO 3: Verificar periodicamente se outro worker já encontrou a senha
@@ -123,6 +140,7 @@ int main(int argc, char *argv[]) {
         // TODO 4: Calcular o hash MD5 da senha atual
         // IMPORTANTE: Use a biblioteca MD5 FORNECIDA - md5_string(senha, hash_buffer)
         
+
         // TODO 5: Comparar com o hash alvo
         // Se encontrou: salvar resultado e terminar
         
