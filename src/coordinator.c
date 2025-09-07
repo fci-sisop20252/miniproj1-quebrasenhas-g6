@@ -183,6 +183,8 @@ int main(int argc, char *argv[]) {
                 }
             }
     }
+
+    
 //COMEÇAR AQUIII!!!
     // TODO 11
     // IMPLEMENTE AQUI:
@@ -194,20 +196,21 @@ int main(int argc, char *argv[]) {
 
     int status;
     int term = 0;
-    pid_t child_pid = wait(&status);
+    pid_t child_pid);
 
-    while(child_pid > 0){
+    while((child_pid = wait(&status) ) > 0){
         term ++;
         if(WIFEXITED(status)){
-            printf("Worker PID = %d terminou com o codigo. %d\n", pid, WEXITSTATUS(status);
+            printf("Worker PID = %d terminou com o codigo. %d\n", child_pid, WEXITSTATUS(status);
         }
         else if(WIFSIGNALED(status)){
-            printf("Worker PID = %d foi terminado peolo sinal!", pid, WTERMSIG(status));
+            printf("Worker PID = %d foi terminado peolo sinal!", child_pid, WTERMSIG(status));
         }
         else if (WIFSTOPPED(status)){
-            printf("Worker PID = %d foi parado pelo sinal.", pid, WSTOPSIG(status);
+            printf("Worker PID = %d foi parado pelo sinal.", child_pid, WSTOPSIG(status);
         }
     }
+    
     // Registrar tempo de fim
     time_t end_time = time(NULL);
     double elapsed_time = difftime(end_time, start_time);
