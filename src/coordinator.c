@@ -85,11 +85,11 @@ int main(int argc, char *argv[]) {
     // - charset não pode ser vazio
 
     if (password_len < 1 || password_len > 10){
-        fprint(stderr, "Erro: tamanho da senha deve estra entre 1 e 10.\n");
+        fprintf(stderr, "Erro: tamanho da senha deve estra entre 1 e 10.\n");
     exit(1);
     }
     if (num_workers < 1 || num_workers > MAX_WORKERS){         
-        fprint(stderr, "Erro: número de workers deve estar entre 1 e %d.\n", MAX_WORKERS);
+        fprintf(stderr, "Erro: número de workers deve estar entre 1 e %d.\n", MAX_WORKERS);
     exit(1);
     }
     if (charset_len == 0){
@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
     pid_t workers[MAX_WORKERS];
     
     // TODO 3: Criar os processos workers usando fork()
-    printf("Iniciando workers...\n");
+    printf("Iniciando %d workers...\n", MAX_WORKERS);
     
     // IMPLEMENTE AQUI: Loop para criar workers
     for (int i = 0; i < num_workers; i++) {
@@ -196,18 +196,18 @@ int main(int argc, char *argv[]) {
 
     int status;
     int term = 0;
-    pid_t child_pid);
+    pid_t child_pid;
 
     while((child_pid = wait(&status) ) > 0){
         term ++;
         if(WIFEXITED(status)){
-            printf("Worker PID = %d terminou com o codigo. %d\n", child_pid, WEXITSTATUS(status);
+            printf("Worker PID = %d terminou com o codigo. %d\n", child_pid, WEXITSTATUS(status));
         }
         else if(WIFSIGNALED(status)){
-            printf("Worker PID = %d foi terminado peolo sinal!", child_pid, WTERMSIG(status));
+            printf("Worker PID = %d foi terminado peolo sinal. %d\n", child_pid, WTERMSIG(status));
         }
         else if (WIFSTOPPED(status)){
-            printf("Worker PID = %d foi parado pelo sinal.", child_pid, WSTOPSIG(status);
+            printf("Worker PID = %d foi parado pelo sinal. %d\n", child_pid, WSTOPSIG(status));
         }
     }
     
@@ -216,19 +216,38 @@ int main(int argc, char *argv[]) {
     double elapsed_time = difftime(end_time, start_time);
     
     printf("\n=== Resultado ===\n");
+    printf("Tempo total de execução: %.2f segundos.\n", elapsed_time);
     
     // TODO 12: Verificar se algum worker encontrou a senha
     // Ler o arquivo password_found.txt se existir
     
     // IMPLEMENTE AQUI:
-    // - Abrir arquivo RESULT_FILE para leitura
-    // - Ler conteúdo do arquivo
-    // - Fazer parse do formato "worker_id:password"
-    // - Verificar o hash usando md5_string()
-    // - Exibir resultado encontrado
-    
-    // Estatísticas finais (opcional)
-    // TODO: Calcular e exibir estatísticas de performance
-    
+
+    int fd = open(RESULT_FILE, O_RDONLY);
+    if (fd < 0) {
+    perror("Erro ao abrir arquivo");
+    return 1;
+    }
+    char buffer[256];
+    ssize_t bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+    if (bytes_read > 0) {
+        buffer[bytes_read] = '\0';
+        char *colon = strchr(buffer, ':');
+        if (colon != NULL) {
+            *colon = '\0';
+            int worker_id = atoi(buffer);
+            char *password = colon + 1;
+            char *newline = strchr(password, '\n');
+            if (newline) *newline = '\0';
+            printf("Worker %d encontrou: %s\n", worker_id, password);
+            char hash[33];
+            md5_string(password, hash);
+            printf("Hash: %s\n", hash);
+}           
+    }
+    else {
+        printf("O arquivo '%s' foi encontrado, mas está vazio.\n", RESULT_FILE);
+    }
+    close(fd);
     return 0;
 }
