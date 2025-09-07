@@ -176,14 +176,36 @@ int main(int argc, char *argv[]) {
     while (finished < num_workers) {
         int status;
         pid_t done = wait(&status);  // espera **qualquer filho**
-        if (done > 0) {
-            finished++;
-            if (WIFEXITED(status)) {
-                printf("Worker PID %d terminou com código %d\n", done, WEXITSTATUS(status));
-            } else if (WIFSIGNALED(status)) {
-                printf("Worker PID %d foi morto pelo sinal %d\n", done, WTERMSIG(status));
+
+        if (done == -1){
+            perror("wait");
+            continue;
+        }
+
+        int id_worker = -1;
+        for(int j = 0; j < num_workers; j++){
+            if(workers[j] == done){
+                id_worker = j;
+                break;
             }
         }
+
+        if(id_worker == -1){
+            fprintf(stderr, "PID %d desconhecido, ignorando!\n", done);
+            continue;
+        }
+        
+        if (WIFEXITED(status)) {
+            printf("Worker PID %d terminou com código %d\n", done, WEXITSTATUS(status));
+        } else if (WIFSIGNALED(status)) {
+            printf("Worker PID %3d foi morto pelo sinal %d\n", done, WTERMSIG(status));
+        }
+        else{
+            printf("Worker %3d [PID %d] terminou inseperadamente\n", id_worker, done);
+
+        }
+        finished++;
+        
     }
     
     // TODO 11
