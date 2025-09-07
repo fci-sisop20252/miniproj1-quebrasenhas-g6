@@ -191,7 +191,23 @@ int main(int argc, char *argv[]) {
     // - Identificar qual worker terminou
     // - Verificar se terminou normalmente ou com erro
     // - Contar quantos workers terminaram
-    
+
+    int status;
+    int term = 0;
+    pid_t child_pid = wait(&status);
+
+    while(child_pid > 0){
+        term ++;
+        if(WIFEXITED(status)){
+            printf("Worker PID = %d terminou com o codigo. %d\n", pid, WEXITSTATUS(status);
+        }
+        else if(WIFSIGNALED(status)){
+            printf("Worker PID = %d foi terminado peolo sinal!", pid, WTERMSIG(status));
+        }
+        else if (WIFSTOPPED(status)){
+            printf("Worker PID = %d foi parado pelo sinal.", pid, WSTOPSIG(status);
+        }
+    }
     // Registrar tempo de fim
     time_t end_time = time(NULL);
     double elapsed_time = difftime(end_time, start_time);
