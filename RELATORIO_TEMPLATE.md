@@ -1,6 +1,6 @@
 # Relatório: Mini-Projeto 1 - Quebra-Senhas Paralelo
 
-**Aluno(s):** Nome (Matrícula), Nome (Matrícula),,,  
+**Aluno(s):** Beatriz Di Palma (10439477), Guilherme Limeira De Souza (10439777), Luiza Marinho de Mesquita (10438045), Vinicius Pereira Allegretti (10437502)  
 ---
 
 ## 1. Estratégia de Paralelização
