@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
 
     // TODO 3: Criar os processos workers usando fork()
     printf("Iniciando %d workers...\n", num_workers);
-
+    pid_t workers[MAX_WORKERS];
      // IMPLEMENTE AQUI: Loop para criar workers
     for (int i = 0; i < num_workers; i++) {
            // TODO 4: Calcular intervalo de senhas para este worker
@@ -144,13 +144,13 @@ int main(int argc, char *argv[]) {
         index_to_password(start_index, charset, charset_len, password_len, start_pass);
         index_to_password(end_index, charset, charset_len, password_len, end_pass);
         // TODO 6: Usar fork() para criar processo filho (pid)
-        //pid_t pid = fork();
+        pid_t pid = fork();
         if (pid < 0) {
             perror("Erro no fork");
             exit(1);
         } 
         // TODO 6: Usar fork() para criar processo filho (pid)
-        pid_t workers[MAX_WORKERS];
+        
         else if (pid > 0) {
             workers[i] = pid;
             printf("Worker %d iniciado (PID = %d) range [%s - %s]\n", i, pid, start_pass, end_pass);
