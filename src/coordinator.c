@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
     long long remaining = total_space % num_workers;
 
     // Arrays para armazenar PIDs dos workers
-    pid_t workers[MAX_WORKERS];
+    //pid_t workers[MAX_WORKERS];
 
     // TODO 3: Criar os processos workers usando fork()
     printf("Iniciando %d workers...\n", num_workers);
@@ -190,6 +190,7 @@ int main(int argc, char *argv[]) {
     // Registrar tempo de fim
     time_t end_time = time(NULL);
     double elapsed_time = difftime(end_time, start_time);
+    (void)elapsed_time;
 
     printf("\n=== Resultado ===\n");
     printf("Tempo total de execução: %.2f segundos.\n", elapsed_time);
