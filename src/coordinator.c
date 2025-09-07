@@ -150,6 +150,7 @@ int main(int argc, char *argv[]) {
             exit(1);
         } 
         // TODO 6: Usar fork() para criar processo filho (pid)
+        pit_t workers[MAX_WORKERS];
         else if (pid > 0) {
             workers[i] = pid;
             printf("Worker %d iniciado (PID = %d) range [%s - %s]\n", i, pid, start_pass, end_pass);
