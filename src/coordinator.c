@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
         index_to_password(start_index, charset, charset_len, password_len, start_pass);
         index_to_password(end_index, charset, charset_len, password_len, end_pass);
         // TODO 6: Usar fork() para criar processo filho (pid)
-        pid_t pid = fork();
+        //pid_t pid = fork();
         if (pid < 0) {
             perror("Erro no fork");
             exit(1);
