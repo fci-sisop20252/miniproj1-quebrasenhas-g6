@@ -172,6 +172,20 @@ int main(int argc, char *argv[]) {
     // TODO 10: Aguardar todos os workers terminarem usando wait()
     // IMPORTANTE: O pai deve aguardar TODOS os filhos para evitar zumbis
     //COMEÇAR AQUIII!!!
+    int finished = 0;
+    while (finished < num_workers) {
+        int status;
+        pid_t done = wait(&status);  // espera **qualquer filho**
+        if (done > 0) {
+            finished++;
+            if (WIFEXITED(status)) {
+                printf("Worker PID %d terminou com código %d\n", done, WEXITSTATUS(status));
+            } else if (WIFSIGNALED(status)) {
+                printf("Worker PID %d foi morto pelo sinal %d\n", done, WTERMSIG(status));
+            }
+        }
+    }
+    
     // TODO 11
     // IMPLEMENTE AQUI:
     // - Loop para aguardar cada worker terminar
