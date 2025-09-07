@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
         // TODO 4: Calcular intervalo de senhas para este worker
     //start_index é o primeiro índice que o worker vai testar
     //end_index é o último índice que ele deve testar
-        extra = (i < remaining) ? 1:0;
+        
         long long start_index = i * passwords_per_worker + (i<remaining ? i : remaining);
         long long end_index = start_index + passwords_per_worker + extra -1;
         // TODO 5: Converter indices para senhas de inicio e fim
