@@ -128,15 +128,16 @@ int main(int argc, char *argv[]) {
     pid_t workers[MAX_WORKERS];
     
     // TODO 3: Criar os processos workers usando fork()
-    printf("Iniciando %d workers...\n", MAX_WORKERS);
+    printf("Iniciando %d workers...\n", num_workers);
     
     // IMPLEMENTE AQUI: Loop para criar workers
     for (int i = 0; i < num_workers; i++) {
         // TODO 4: Calcular intervalo de senhas para este worker
     //start_index é o primeiro índice que o worker vai testar
     //end_index é o último índice que ele deve testar
+        extra = (i < remaining) ? 1:0;
         long long start_index = i * passwords_per_worker + (i<remaining ? i : remaining);
-        long long end_index = start_index + passwords_per_worker -1;
+        long long end_index = start_index + passwords_per_worker + extra -1;
         // TODO 5: Converter indices para senhas de inicio e fim
     //converte os indices numericos para sehas reais
         char start_pass [64], end_pass[64];
