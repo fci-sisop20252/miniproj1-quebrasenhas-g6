@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
         } 
         // TODO 6: Usar fork() para criar processo filho (pid)
         else if (pid > 0) {
-            num_workers[i] = pid;
+            workers[i] = pid;
             printf("Worker %d iniciado (PID = %d) range [%s - %s]\n", i, pid, start_pass, end_pass);
         } 
         // TODO 8: No processo filho: usar execl() para executar worker
